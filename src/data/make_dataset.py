@@ -3,19 +3,23 @@ import pandas as pd
 def make_intermediate_dataset():
     # reading the data from the tsv file
     df = pd.read_csv('../data/raw/filtered.tsv', sep='\t')
+    
     # taking only rows with high similarity and where reference toxicity is higher than translation toxicity 
     sents = df[(df['similarity'] > 0.8) & (df['ref_tox'] - df['trn_tox'] > 0.2) & (df['ref_tox'] > 0.7)]
     sents = sents[['reference', 'translation']]
     sents.columns = ['reference', 'translation']
+
     # saving the data to intermediate folder
     sents.to_csv('../data/interim/filtered.csv', index=False)
 
 def train_test_split():
     # reading the data from the csv file
     df = pd.read_csv('../data/interim/filtered.csv')
+
     # splitting the data into train and test sets
     train = df.sample(frac=0.95, random_state=1337)
     test = df.drop(train.index)
+
     # saving the train and test sets
     train.to_csv('../data/interim/train.csv', index=False)
     test.to_csv('../data/interim/test.csv', index=False)

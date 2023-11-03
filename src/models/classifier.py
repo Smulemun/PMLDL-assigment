@@ -1,6 +1,8 @@
 import torch.nn as nn
 
 class ToxicWordsClassifier(nn.Module):
+
+    # simple classifier to identify toxic words
     def __init__(self, vocab_size, embedding_dim, dropout=0.1):
         super().__init__()
         self.embedding = nn.Embedding(vocab_size, embedding_dim)
