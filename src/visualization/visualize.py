@@ -4,7 +4,7 @@ METRICS = ['SIM', 'ACC', 'FLNC', 'J']
 METRIC2NAME = {'SIM': 'Semantic Similarity', 'ACC': 'Style Accuracy', 'FLNC': 'Fluency', 'J': 'J Score'}
 
 def plot_metrics(data):
-    
+    '''Function to plot metrics'''
     # for each metric plotting a bar chart
     for i, metric in enumerate(METRICS):
         bars = []

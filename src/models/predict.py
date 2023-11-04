@@ -1,11 +1,15 @@
 import torch
-from ..data.preprocess import put_mask, put_mask_with_classifier, get_toxicity
-from ..data.postprocess import postprocess
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+from data.preprocess import put_mask, put_mask_with_classifier, get_toxicity
+from data.postprocess import postprocess
 
 # prefix to use for 
 PREFIX = 'Detoxify text: '
 
 def detoxificate_text(texts, toxic_words, tokenizer, model, device='cpu'):
+    '''Function to detoxify a given text'''
     # putting mask in sentences 
     masked_text = [put_mask(x, toxic_words) for x in texts]
     # tokenize texts
@@ -33,6 +37,7 @@ def detoxificate_text(texts, toxic_words, tokenizer, model, device='cpu'):
     return non_toxic_text
 
 def detoxificate_text_with_classifier(texts, tokenizer, masked_model, classifier, device='cpu'):
+    '''Function to detoxify a given text using a classifier'''
     # putting mask in sentences 
     masked_text = [put_mask_with_classifier(x, tokenizer, classifier) for x in texts]
     # tokenize texts
@@ -60,6 +65,7 @@ def detoxificate_text_with_classifier(texts, tokenizer, masked_model, classifier
     return non_toxic_text
 
 def detoxificate_style_transfer(texts, model, tokenizer, device='cpu'):
+    '''Function to detoxify a given text using style transfer'''
     # adding prefix to the sentences
     texts = [PREFIX + x for x in texts]
     # tokenize texts

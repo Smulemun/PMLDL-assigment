@@ -1,6 +1,7 @@
 import pandas as pd
 
 def make_intermediate_dataset():
+    '''Function to make the intermediate dataset from the raw dataset'''
     # reading the data from the tsv file
     df = pd.read_csv('../data/raw/filtered.tsv', sep='\t')
     
@@ -13,6 +14,7 @@ def make_intermediate_dataset():
     sents.to_csv('../data/interim/filtered.csv', index=False)
 
 def train_test_split():
+    '''Function to split the data into train and test sets'''
     # reading the data from the csv file
     df = pd.read_csv('../data/interim/filtered.csv')
 
@@ -25,6 +27,7 @@ def train_test_split():
     test.to_csv('../data/interim/test.csv', index=False)
 
 def make_toxic_words_dataset():
+    '''Function to make the toxic words dataset'''
     # reading the data from the txt files
     negative_words = open('../data/external/negative_words.txt').read().split('\n')
     toxic_words = open('../data/external/toxic_words.txt').read().split('\n')
@@ -40,6 +43,7 @@ def make_toxic_words_dataset():
         f.write(to_file)
 
 def make_positive_words_dataset():
+    '''Function to make the positive words dataset'''
     # reading the data from the txt files
     positive_words = open('../data/external/positive_words.txt').read().split('\n')
 
@@ -51,3 +55,9 @@ def make_positive_words_dataset():
     with open('../data/interim/positive_words.txt', 'w') as f:
         to_file = '\n'.join(positive_words)
         f.write(to_file)
+
+if __name__ == '__main__':
+    make_intermediate_dataset()
+    train_test_split()
+    make_toxic_words_dataset()
+    make_positive_words_dataset()

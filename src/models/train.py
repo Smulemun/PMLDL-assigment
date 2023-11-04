@@ -6,7 +6,7 @@ from tqdm import tqdm
 import torch
 
 def train(model_type, model, tokenizer, train_dataset, val_dataset, data_collator, batch_size, epochs, seed):
-
+    '''Function to train a given model'''
     if model_type == 'maskedlm' or model_type == 'maskedlm_with_classifier':
         # training maskedlm model
         training_args = TrainingArguments(
@@ -63,6 +63,7 @@ def train(model_type, model, tokenizer, train_dataset, val_dataset, data_collato
     
 
 def train_classifier(epoch, model, optimizer, criterion, train_dataloader, device):
+    '''Function to train a given classifier'''
     # training the classifier
     model.to(device)
     model.train()
@@ -84,6 +85,7 @@ def train_classifier(epoch, model, optimizer, criterion, train_dataloader, devic
         progress_bar.set_description(f'Epoch: {epoch}, Loss: {np.mean(losses):.5f}, Acc: {np.mean(accs):.5f}')
 
 def evaluate_classifier(epoch, model, criterion, eval_loader, device):
+    '''Function to validate a given classifier'''
     # validating the classifier
     model.to(device)
     model.eval()

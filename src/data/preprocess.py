@@ -1,6 +1,7 @@
 import torch
 
 def put_mask(text, words):
+    '''Function to replace toxic words with [MASK]'''
     text = text.lower()
     # replacing toxic words with [MASK]
     for word in words:
@@ -8,6 +9,7 @@ def put_mask(text, words):
     return text
 
 def get_toxicity(word, tokenizer, model, device='cpu'):
+    '''Function to get the toxicity of a given word'''
     # using classifier to get the toxicity of a given word
     try:
         encoded = tokenizer(word, add_special_tokens=False, max_length=1, truncation=True).input_ids[0]
@@ -21,6 +23,7 @@ def get_toxicity(word, tokenizer, model, device='cpu'):
     return toxic_chance.item()
 
 def put_mask_with_classifier(text, tokenizer, model, device='cpu'):
+    '''Function to replace toxic words with [MASK] using a classifier'''
     text = text.lower().split()
     # replacing words that were classified as toxic with [MASK]
     for i in range(len(text)):
@@ -28,3 +31,4 @@ def put_mask_with_classifier(text, tokenizer, model, device='cpu'):
         if toxic_chance > 0.8:
             text[i] = "[MASK]"
     return ' '.join(text)
+

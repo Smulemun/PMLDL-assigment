@@ -16,6 +16,7 @@ fluency_tokenizer = RobertaTokenizer.from_pretrained(fluency_model_name)
 fluency_model = RobertaForSequenceClassification.from_pretrained(fluency_model_name)
 
 def semantic_similarity(pred, target):
+    '''Function to calculate semantic similarity between two texts'''
     # Semantic similarity shows how similar two texts are based on their meaning (1 - same meaning, 0 - different meaning)
     pred_embedding = semantic_similarity_model.encode(pred)
     target_embedding = semantic_similarity_model.encode(target)
@@ -23,6 +24,7 @@ def semantic_similarity(pred, target):
     return np.mean([cos_sim_score[i][i] for i in range(len(pred))])
 
 def style_accuracy(pred, device='cuda'):
+    '''Function to calculate style accuracy of a given text'''
     # Style accuracy shows how toxic the text is (1 - non-toxic, 0 - toxic)
     style_accuracy_model.to(device)
     with torch.no_grad():
@@ -32,6 +34,7 @@ def style_accuracy(pred, device='cuda'):
     return np.mean(result.cpu().numpy())
 
 def fluency(pred, device='cuda'):
+    '''Function to calculate fluency of a given text'''
     # Fluency shows how gramatically correct the given text is accordinng to the english grammar (1 - correct, 0 - incorrect)
     fluency_model.to(device)
     with torch.no_grad():
@@ -41,5 +44,6 @@ def fluency(pred, device='cuda'):
     return np.mean(result.cpu().numpy())
 
 def j_metric(similarity, accuracy, fluency):
+    '''Function to calculate J metric of a given text'''
     # J metric is a combination of three metrics listed above
     return similarity * accuracy * fluency
