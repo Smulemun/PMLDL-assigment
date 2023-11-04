@@ -6,7 +6,7 @@ from urllib.request import urlopen
 DATASET_LINK = 'https://github.com/skoltech-nlp/detox/releases/download/emnlp2021/filtered_paranmt.zip'
 
 def download_dataset():
-    '''Function to download the dataset from the google drive'''
+    '''Function to download the dataset from the link'''
     resp = urlopen(DATASET_LINK)
     zip_file = ZipFile(BytesIO(resp.read()))
     zip_file.extractall('data/raw')
