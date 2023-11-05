@@ -1,6 +1,8 @@
 import torch
 import sys
 import os
+from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+import argparse
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from data.preprocess import put_mask, put_mask_with_classifier, get_toxicity
 from data.postprocess import postprocess
@@ -78,3 +80,14 @@ def detoxificate_style_transfer(texts, model, tokenizer, device='cpu'):
     # decode the tokenized texts
     non_toxic_text = postprocess(tokenizer.batch_decode(outputs, skip_special_tokens=True))
     return non_toxic_text
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Detoxify a given text')
+    parser.add_argument('--text', type=str, help='Text to detoxify')
+    args = parser.parse_args()
+    model_name = 'models/detoxificator'
+    best_model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    text = args.text
+    detoxified_text = detoxificate_style_transfer([text], best_model, tokenizer)[0]
+    print(detoxified_text)

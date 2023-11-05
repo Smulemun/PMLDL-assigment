@@ -10,4 +10,4 @@ Run `python src/data/make_dataset.py` to download and preprocess
 To train models run respective Jyputer notebook (for example to train t5-small model run `4_style_transfer.ipynb`)
 However training takes a long time, instead download [pretrained model](https://github.com/Smulemun/PMLDL-assigment/releases/tag/model)
 ## Make Predictions
-To detoxify given text run `python src/models/detoxify.py --text="your toxic text here"`
+To detoxify given text run `python src/models/predict.py --text="your toxic text here"`
